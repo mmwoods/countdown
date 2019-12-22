@@ -5,28 +5,35 @@ import { HomeSceneProps } from "./home-scene.interface";
 
 export const HomeScene = (props: HomeSceneProps) => {
   const { name } = props;
-  const [minutes, setMinutes] = useState();
+  const [countdown, setCountdown] = useState();
 
-  const hours = new Date().getHours();
-
-  const timeOfDay = hours > 12 ? "pm" : "am";
-  const hoursConverted = timeOfDay === "pm" ? hours - 12 : hours;
-
-  const minutesConverted = minutes < 10 ? `0${minutes}` : minutes;
+  const countDownDate: any = new Date("Dec 31, 2019 06:15:00");
 
   useEffect(() => {
     setInterval(() => {
-      setMinutes(new Date().getMinutes());
-    });
+      const currentTime = new Date().getTime();
+      const distance: number = countDownDate - currentTime;
+
+      setCountdown(distance);
+    }, 1000);
   }, []);
+
+  const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
 
   return (
     <div style={styles.wrapper}>
       <img alt="night sky" src={background} style={styles.image}></img>
       <div style={styles.container}>
-        <h1 style={styles.title}>{`${hoursConverted}:${minutesConverted}`}</h1>
-        <p style={styles.subtitle}>
-          We've been expecting you{name ? `, ${name}.` : "."}
+        <h1 style={styles.title}>{`${days} days`}</h1>
+        <h1 style={styles.subtitle}>{`${hours} hrs ${minutes} mins`}</h1>
+
+        <p style={styles.description}>
+          Until it begins{name ? `, ${name}.` : "."}
         </p>
       </div>
     </div>
@@ -39,19 +46,23 @@ interface HomeSceneStyles {
   image: CSSProperties;
   title: CSSProperties;
   subtitle: CSSProperties;
+  description: CSSProperties;
 }
 
 const styles: HomeSceneStyles = {
   wrapper: {
-    height: "100vh",
+    height: "100%",
+    width: "auto",
+    maxWidth: "100vw",
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
   },
   container: {
     textAlign: "center",
-    padding: 8,
-    position: "absolute"
+    position: "absolute",
+    left: 0,
+    width: "100%"
   },
   image: {
     height: "100vh",
@@ -59,13 +70,18 @@ const styles: HomeSceneStyles = {
     objectFit: "cover"
   },
   title: {
-    fontSize: 150,
-    margin: 0,
+    fontSize: 100,
+    margin: "0 0 -2px 0",
     color: "#fff"
   },
   subtitle: {
-    fontSize: 50,
+    fontSize: 60,
     margin: 0,
+    color: "#fff"
+  },
+  description: {
+    fontSize: 40,
+    margin: "20px 0 0 0",
     color: "#fff"
   }
 };
