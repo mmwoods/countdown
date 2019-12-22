@@ -8,10 +8,19 @@ export const HomeScene = (props: HomeSceneProps) => {
 
   const { name } = props;
 
-  const countDownDate: any = new Date("Dec 31, 2019 06:15:00");
+  useEffect(() => {
+    const countDownDate: any = new Date("Dec 31, 2019 06:15:00");
+
+    const currentTime = new Date().getTime();
+    const distance: number = countDownDate - currentTime;
+
+    setTimeout(() => setCountdown(distance));
+  }, []);
 
   useEffect(() => {
     setInterval(() => {
+      const countDownDate: any = new Date("Dec 31, 2019 06:15:00");
+
       const currentTime = new Date().getTime();
       const distance: number = countDownDate - currentTime;
 
@@ -29,12 +38,19 @@ export const HomeScene = (props: HomeSceneProps) => {
     <div style={styles.wrapper}>
       <img alt="night sky" src={background} style={styles.image}></img>
       <div style={styles.container}>
-        <h1 style={styles.title}>{`${days} days`}</h1>
-        {days === 0 ? <h1 style={styles.subtitle}>{`${hours} hrs ${minutes} mins`}</h1> : null}
+        {days > 0 ? <h1 style={styles.title}>{`${days} days`}</h1> : null}
 
-        <p style={styles.description}>
-          Until it begins{name ? `, ${name}.` : "."}
-        </p>
+        {days === 0 ? (
+          <h2 style={styles.subtitle}>{`${hours} hrs ${minutes} mins`}</h2>
+        ) : null}
+
+        {days >= 0 ? (
+          <p style={styles.description}>
+            Until it begins{name ? `, ${name}.` : "."}
+          </p>
+        ) : (
+          <h1 style={styles.title}>Until next time.</h1>
+        )}
       </div>
     </div>
   );
@@ -81,7 +97,7 @@ const styles: HomeSceneStyles = {
   },
   description: {
     fontSize: 40,
-    margin: "20px 0 0 0",
+    margin: "8px 0 0 0",
     color: "#fff"
   }
 };
