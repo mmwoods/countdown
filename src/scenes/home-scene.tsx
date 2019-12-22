@@ -16,7 +16,7 @@ export const HomeScene = (props: HomeSceneProps) => {
       const distance: number = countDownDate - currentTime;
 
       setCountdown(distance);
-    }, 60000);
+    }, 1000);
   }, []);
 
   const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
