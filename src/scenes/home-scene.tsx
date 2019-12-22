@@ -4,8 +4,9 @@ import background from "../assets/night.jpg";
 import { HomeSceneProps } from "./home-scene.interface";
 
 export const HomeScene = (props: HomeSceneProps) => {
-  const { name } = props;
   const [countdown, setCountdown] = useState();
+
+  const { name } = props;
 
   const countDownDate: any = new Date("Dec 31, 2019 06:15:00");
 
@@ -15,7 +16,7 @@ export const HomeScene = (props: HomeSceneProps) => {
       const distance: number = countDownDate - currentTime;
 
       setCountdown(distance);
-    }, 1000);
+    }, 60000);
   }, []);
 
   const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
@@ -23,14 +24,13 @@ export const HomeScene = (props: HomeSceneProps) => {
     (countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
   const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
 
   return (
     <div style={styles.wrapper}>
       <img alt="night sky" src={background} style={styles.image}></img>
       <div style={styles.container}>
         <h1 style={styles.title}>{`${days} days`}</h1>
-        <h1 style={styles.subtitle}>{`${hours} hrs ${minutes} mins`}</h1>
+        {days === 0 ? <h1 style={styles.subtitle}>{`${hours} hrs ${minutes} mins`}</h1> : null}
 
         <p style={styles.description}>
           Until it begins{name ? `, ${name}.` : "."}
