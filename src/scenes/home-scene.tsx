@@ -19,7 +19,7 @@ export const HomeScene = (props: HomeSceneProps) => {
 
   useEffect(() => {
     setInterval(() => {
-      const countDownDate: any = new Date("Dec 31, 2019 06:15:00");
+      const countDownDate: any = new Date("Dec 31, 2019 20:00:00");
 
       const currentTime = new Date().getTime();
       const distance: number = countDownDate - currentTime;
